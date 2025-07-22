@@ -9,10 +9,9 @@ import lombok.*;
 import java.util.Date;
 import java.util.UUID;
 
-@Table(name = "event")
 @Entity
-@Setter
-@Getter
+@Table(name = "event")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Event {
