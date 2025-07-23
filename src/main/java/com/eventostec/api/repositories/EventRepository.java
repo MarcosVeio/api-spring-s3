@@ -11,23 +11,22 @@ import java.util.Date;
 import java.util.UUID;
 
 public interface EventRepository extends JpaRepository<Event, UUID> {
-    @Query("SELECT e FROM Event e WHERE e.date >= :currentDate")
+    @Query("SELECT e FROM Event e LEFT JOIN FETCH e.address a WHERE e.date >= :currentDate")
     public Page<Event> findUpcomingEvents(@Param("currentDate") Date currentDate, Pageable pageable);
 
-    @Query("SELECT e from Event e " +
-            "LEFT JOIN e.address a " +
-            "WHERE e.date >= :currentDate AND " +
-            "(:title IS NULL OR e.title LIKE %:title%) AND " +
-            "(:city IS NULL OR a.city LIKE %:city%) AND " +
-            "(:uf IS NULL OR a.uf LIKE %:uf%) AND " +
-            "(:startDate IS NULL OR e.date >= :startDate) AND " +
-            "(:endDate IS NULL OR e.date <= :endDate) AND ")
-    Page<Event> findFilteredEvents(@Param("currentDate") Date currentDate,
-                                   @Param("title") String title,
+    @Query("SELECT e FROM Event e WHERE e.id = :eventId")
+    public Event findEventById(@Param("eventId") UUID eventId);
+
+    @Query(value = "SELECT e FROM Event e LEFT JOIN e.address a " +
+            "WHERE (:title = '' OR e.title LIKE %:title%) " +
+            "AND (:city = '' OR a.city LIKE %:city%) " +
+            "AND (:uf = '' OR a.uf LIKE %:uf%) " +
+            "AND (e.date BETWEEN :startDate AND :endDate) ")
+    Page<Event> findFilteredEvents(@Param("title") String title,
                                    @Param("city") String city,
                                    @Param("uf") String uf,
-                                   @Param("startDate") String startDate,
-                                   @Param("endDate") String endDate,
+                                   @Param("startDate") Date startDate,
+                                   @Param("endDate") Date endDate,
                                    Pageable pageable);
 
 }

@@ -1,9 +1,7 @@
 package com.eventostec.api.domain.event;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.eventostec.api.domain.address.Address;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -25,4 +23,7 @@ public class Event {
     private String eventUrl;
     private Boolean remote;
     private Date date;
+
+    @OneToOne(mappedBy = "event", cascade = CascadeType.ALL)
+    private Address address;
 }

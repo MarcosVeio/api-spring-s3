@@ -19,6 +19,7 @@ public class Address {
     private UUID id;
 
     private String city;
+
     private String uf;
 
     @ManyToOne

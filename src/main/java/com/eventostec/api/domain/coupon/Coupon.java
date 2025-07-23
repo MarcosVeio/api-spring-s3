@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "event-coupon")
+@Table(name = "coupon")
 @Getter
 @Setter
 @AllArgsConstructor
