@@ -148,9 +148,12 @@ public class EventService {
     private String uploadImg(MultipartFile multipartFile) {
         String fileName = UUID.randomUUID() + multipartFile.getOriginalFilename();
         try {
+            String contentType = multipartFile.getContentType();
+
             PutObjectRequest putOb = PutObjectRequest.builder()
                     .bucket(bucketName)
                     .key(fileName)
+                    .contentType(contentType)
                     .build();
             s3Client.putObject(putOb, RequestBody.fromByteBuffer(ByteBuffer.wrap(multipartFile.getBytes())));
             GetUrlRequest request = GetUrlRequest.builder()
